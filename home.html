@@ -4,8 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="home.css">
+
 </head>
 <body>
-    Logado com sucesso!
+    <header>
+        <div id="caixa-button-logout">
+            <button type="button" id="logout-button" class="b-solid">Sair</button>
+        </div>
+    </header>
+    <div id="sucess">Bem vindo!</div>
+    <ol id="transaction">
+       
+
+    </ol>
+    <button class="botao-flutuante fixed bottom right">+</button>
+    
 </body>
+
+<script type="module" src="home.js"></script>
+<script type="module" src="auth-guard.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js"></script>
+
 </html>

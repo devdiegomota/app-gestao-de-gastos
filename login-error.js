@@ -1,5 +1,3 @@
-
-
 function OnInputEmail() /* Função que chamada valida email e ativa o botão recuperar senha*/{
     AlternButtonDisable();
     AlternErrorEmail();

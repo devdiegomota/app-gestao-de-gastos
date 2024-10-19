@@ -74,7 +74,6 @@ function OnChangeConfirmPassword() {
     ValidacaoDeSenhas ()
     AlternButtonDisable ()
     
-    
 }
 
 const form = {

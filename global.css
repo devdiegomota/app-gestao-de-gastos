@@ -58,3 +58,20 @@ button:disabled {
     background-color: red;
     display: none;
 }
+.botao-flutuante {
+    width: 54px;
+    height: 54px;
+    border-radius: 50px;
+    border: none;
+    font-size: 24px;
+    box-shadow: 2px 2px 2px gray;
+}
+.botao-flutuante.fixed {
+    position: fixed;
+}
+.botao-flutuante.bottom {
+    bottom: 32px;
+}
+.botao-flutuante.right {
+    right: 32px;
+}

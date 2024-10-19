@@ -1,0 +1,25 @@
+body {
+    
+    height: 100vh;
+    background-color: rgb(39, 190, 39);
+}
+input, button {  
+    padding: 10px;
+    width: auto;
+    border-radius: 5px;
+}
+button {
+    cursor: pointer; 
+}
+
+#sucess {
+    text-align: center;
+    color: white;
+    margin-bottom: 15px;
+}
+#caixa-register-sucess {
+    margin: 5px;
+    text-align: center;
+    height: 100vh;
+    align-content: center;
+}

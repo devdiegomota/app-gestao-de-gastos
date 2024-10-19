@@ -1,4 +1,3 @@
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
@@ -51,7 +50,7 @@ submit.addEventListener("click", function (event) {
             // Signed up 
             const user = userCredential.user;
             
-            window.location.href = "home.html"
+            window.location.href = "register-sucess.html"
             // ...
         })
 
