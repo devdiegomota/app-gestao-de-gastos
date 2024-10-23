@@ -1,5 +1,8 @@
-import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getAuth, signOut, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getFirestore, doc, query, where, collection, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+
 
 const firebaseConfig  = {
     apiKey: "AIzaSyBdwnBgSGDXFw7LKhOWZcC7qucnYI0KbVE",
@@ -11,6 +14,23 @@ const firebaseConfig  = {
 };
 
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+UserLoged()// CHAMA A FUNÇÃO QUE VERIFICA SE TA LOGADO
+
+//VERIFICA SE O USUARIO TA LOGADO
+function UserLoged () {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        
+        ProcuraTransacoes(user);//Inicia na tela as transações
+    
+      }
+    });
+}
+
+
 //CHAMA O BOTAO DESLOGAR E MONITORA OS CLIQUES NELE PARA CHAMAR FUNCAO
 const logoutbutton = document.getElementById('logout-button')
 logoutbutton.addEventListener("click", function() {
@@ -31,13 +51,28 @@ function Logout() {
     });
 }
 
-ProcuraTransacoes();
 
-function ProcuraTransacoes () {
-    setTimeout(() => {
-        AddTransacoesNaTela(TransacaoFalsa);
-    }, 1000)
-}
+//FUNÇÃO QUE PEGA OS DADOS NO FIRESTORE
+async function ProcuraTransacoes(user) {
+    ShowLoading()//mostra carregando
+
+    //const querySnapshot = await getDocs(collection(db, "transaction"), where ("user.uid", "==", user.uid))//Pega os documentos da coleção 'transation'
+    const q = query(collection(db, "transaction"), where("user.uid", "==", user.uid), orderBy("data", "desc"));//seleciona a coleção transaction e filtra com base na condição do where ordena por data decressente
+
+    const querySnapshot = await getDocs(q);//chama a coleção 'q' selecionada acima
+    //querySnapshot.forEach((doc) => {//para cada documento faça =>
+    
+     //console.log(doc.id, " => ", doc.data());
+    //});
+    
+    //PAREI AQUI
+    const transactions = querySnapshot.docs.map(doc => doc.data())//Mapeia os docs e cria uma arwey deles na const'transactions'
+    console.log(transactions)
+    AddTransacoesNaTela(transactions);//coloca essa arwey criada na função que joga na tela
+
+
+};
+
 
 function AddTransacoesNaTela(transactions) {
 const listaordenada = document.getElementById('transaction')
@@ -75,42 +110,3 @@ function formatMoney(money){
 function FormatDate(date) {
     return new Date(date).toLocaleDateString('pt-br');
 }
-//SIMULANDO DADOS DO BANCO DE DADOS
-const TransacaoFalsa = [{
-    tipo: 'gastos',
-    data: '2024-10-15',
-    money: {
-        currency: 'R$',
-        valor: '10,00'
-    },
-    tipoTransacao: 'Mercado'
-}, {
-    tipo: 'recebidos',
-    data: '2024-10-15',
-    money: {
-        currency: 'R$',
-        valor: '1000,00'
-    },
-    tipoTransacao: 'Salario',
-    description: 'Ateky'
-
-}, {
-    tipo: 'gastos',
-    data: '2024-10-15',
-    money: {
-        currency: 'R$',
-        valor: '10,00'
-    },
-    tipoTransacao: 'Transporte',
-    description: 'Uber'
-}, {
-    tipo: 'gastos',
-    data: '2024-10-15',
-    money: {
-        currency: 'R$',
-        valor: '600,00'
-    },
-    tipoTransacao: 'Aluguel',
-    description: 'Bruna'
-
-}, ]
