@@ -11,7 +11,7 @@
 <body>
     <header>
         <div id="caixa-button-logout">
-            <button type="button" id="logoutt" class="b-solid">Sair</button>
+            <button type="button" id="logout-button-2" class="b-solid">Sair</button>
         </div>
     </header>
     <div id="sucess">Bem vindo!</div><br>
@@ -25,41 +25,52 @@
             <label for="2">Receita</label>
         </div><br>
         <div class="form">
-            <div><label>Data da transação</label></div>
-            <input class="larguratoda" type="date"> 
+            <div><label>Data da transação*</label></div>
+            <input class="larguratoda" type="date" id="data">
+            <div class="error" id="erro-data-obrigatorio">Data é obrigatório ou inválido</div>
+            
         </div><br>
         <div class="form">
-            <div><label>Moeda</label></div>
+            <div><label>Moeda*</label></div>
             <select class="larguratoda">
-                <option selected>Real</option>
-                <option>Dólar</option>
-                <option>Euro</option>
-            </select> 
+                <option value="BRL" selected>Real</option>
+                <option value="USD">Dólar</option>
+                <option value="EUR">Euro</option>
+            </select>           
+
         </div><br>
         <div class="form">
-            <div><label>Valor</label></div>
-            <input class="larguratoda" type="number"> 
-        </div><br>
+            <div><label>Valor*</label></div>
+            <input class="larguratoda" type="number" id="valor"> 
+        </div>
+        <div class="error" id="erro-valor-obrigatorio">Valor é obrigatório</div>
+        <div class="error" id="erro-valor-maior-zero">Valor deve ser maior que 0</div><br>
+       
+
         <div class="form">
-            <div><label>Tipo de transação</label></div>
-            <select class="larguratoda">
+            <div><label>Tipo de transação*</label></div>
+            <select class="larguratoda" id="tipo-transacao">
+                <option value="">--Selecione--</option>
                 <option>Mercado</option>
                 <option>Salário</option>
                 <option>Carro</option>
                 <option>Casa</option>
                 <option>Outros</option>
             </select> 
+        <div class="error" id="erro-tipo-transacao-obrigatorio">Selecione o tipo de transação</div>
+
         </div><br>
         <div class="form">
             <div><label>Descrição</label></div>
             <input class="larguratoda" type="text"> 
         </div><br>
-        <button type="button" class="b-solid larguratoda">Salvar</button>
+        <button type="button" class="b-solid larguratoda" id="botao-salvar" disabled>Salvar</button>
         <button type="button" class="b-clear larguratoda" onclick="location.href = '../../home.html'">Cancelar</button>
     </form> 
 </main>  
 </body>
-
+<script>
+</script>
 <script type="module" src="transaction.js"></script>
 <script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
 <script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js"></script>
