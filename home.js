@@ -51,6 +51,18 @@ function Logout() {
     });
 }
 
+//CHAMA O BOTAO ADD TRANSAÇÕES E MONITORA OS CLIQUES NELE PARA CHAMAR FUNCAO
+const adtransacoes = document.getElementById('botao-flutuante')
+adtransacoes.addEventListener("click", function() {
+    
+    AddTransacoes();
+  
+  });
+
+function AddTransacoes() {
+    window.location.href = "pages/transacoes/transacoes.html"
+}
+ 
 
 //FUNÇÃO QUE PEGA OS DADOS NO FIRESTORE
 async function ProcuraTransacoes(user) {
@@ -65,7 +77,6 @@ async function ProcuraTransacoes(user) {
      //console.log(doc.id, " => ", doc.data());
     //});
     
-    //PAREI AQUI
     const transactions = querySnapshot.docs.map(doc => doc.data())//Mapeia os docs e cria uma arwey deles na const'transactions'
     console.log(transactions)
     AddTransacoesNaTela(transactions);//coloca essa arwey criada na função que joga na tela

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transação</title>
+    <link rel="stylesheet" href="../../global.css">
+    <link rel="stylesheet" href="transacoes.css">
+
+</head>
+<body>
+    <header>
+        <div id="caixa-button-logout">
+            <button type="button" id="logoutt" class="b-solid">Sair</button>
+        </div>
+    </header>
+    <div id="sucess">Bem vindo!</div><br>
+    <main class="centralize">
+    <form>
+        <div class="form">
+            <div><label>Transação</label></div>
+            <input type="radio" name="type" checked id="1"> 
+            <label for="1">Despesa</label>
+            <input type="radio" name="type" id="2"> 
+            <label for="2">Receita</label>
+        </div><br>
+        <div class="form">
+            <div><label>Data da transação</label></div>
+            <input class="larguratoda" type="date"> 
+        </div><br>
+        <div class="form">
+            <div><label>Moeda</label></div>
+            <select class="larguratoda">
+                <option selected>Real</option>
+                <option>Dólar</option>
+                <option>Euro</option>
+            </select> 
+        </div><br>
+        <div class="form">
+            <div><label>Valor</label></div>
+            <input class="larguratoda" type="number"> 
+        </div><br>
+        <div class="form">
+            <div><label>Tipo de transação</label></div>
+            <select class="larguratoda">
+                <option>Mercado</option>
+                <option>Salário</option>
+                <option>Carro</option>
+                <option>Casa</option>
+                <option>Outros</option>
+            </select> 
+        </div><br>
+        <div class="form">
+            <div><label>Descrição</label></div>
+            <input class="larguratoda" type="text"> 
+        </div><br>
+        <button type="button" class="b-solid larguratoda">Salvar</button>
+        <button type="button" class="b-clear larguratoda" onclick="location.href = '../../home.html'">Cancelar</button>
+    </form> 
+</main>  
+</body>
+
+<script type="module" src="transaction.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js"></script>
+
+</html>
