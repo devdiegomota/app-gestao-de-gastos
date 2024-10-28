@@ -1,5 +1,6 @@
 import { getAuth, signOut, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getFirestore, doc, addDoc, setDoc, query, where, collection, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 
 const firebaseConfig  = {
@@ -10,8 +11,87 @@ const firebaseConfig  = {
     messagingSenderId: "672245601640",
     appId: "1:672245601640:web:4f17d445b38d4a49a7b2dd"
 };
-
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+//----------------------------------------------------------------
+//SEÇÃO QUE AO CLICAR EM SALVAR CHAMA A FUNÇÃO QUE CONTÉM OS DADOS DIGITADOS
+const botaoSalvar = document.getElementById('botao-salvar')
+if(botaoSalvar) { 
+botaoSalvar.addEventListener("click", SalvarTransacao)
+}
+//----------------------------------
+
+function SalvarTransacao() {
+ShowLoading()
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+    if (user) {
+
+    const uid = user.uid;
+    const Dados = addDoc(collection(db, "transaction"), {
+
+        tipo: form.tipoGasto().checked ? "gastos" : "recebidos",
+        data: form.data().value,
+        money: {
+        currency: form.currency().value,
+        valor: parseFloat(form.valor().value)
+        },
+        tipoTransacao: form.tipoTransacao().value,
+        description: form.description().value,
+        user: {
+            uid: uid
+        }
+
+
+    }
+    )
+    console.log("Document written with ID: ", Dados.id)
+
+    }
+    }
+    
+    )
+    setTimeout(() => location.href = "../../home.html", 2000);
+    
+    
+
+}
+
+
+
+    
+//----------------------------
+   
+
+
+/*
+async function SalvarTransacao() {
+
+        const Dados = await addDoc(collection(db, "transaction"), {
+
+
+            tipo: form.tipoGasto().checked ? "gastos" : "recebidos",
+            data: form.data().value,
+            money: {
+            currency: form.currency().value,
+            valor: parseFloat(form.valor().value)
+            },
+            tipoTransacao: form.tipoTransacao().value,
+            description: form.description().value,
+            //user: 
+    
+    
+        })
+        console.log("Document written with ID: ", Dados.id)
+
+    }
+    */
+
+
+
+
+//----------------------------------------------------------------------
 
 //CHAMA O BOTAO DESLOGAR E MONITORA OS CLIQUES NELE PARA CHAMAR FUNCAO-------------------------------
 const logoutt = document.getElementById('logout-button-2');
@@ -93,11 +173,14 @@ function FormularioValido() {
 //ELEMENTOS EM FORMA DE OBJETOS
 const form = {
     data: () => document.getElementById('data'),
+    description: () => document.getElementById('description'),
+    currency: () => document.getElementById('currency'),
     dataObrigatorio: () => document.getElementById('erro-data-obrigatorio'),
     valor: () => document.getElementById('valor'),
     ErroValorObrigatorio: () => document.getElementById('erro-valor-obrigatorio'),
     ErroValorMaiorQueZero: () => document.getElementById('erro-valor-maior-zero'),
     ErroTipoTransacao: () => document.getElementById('erro-tipo-transacao-obrigatorio'),
     tipoTransacao: () => document.getElementById('tipo-transacao'),
-    botaoSalvar: () => document.getElementById('botao-salvar')
+    botaoSalvar: () => document.getElementById('botao-salvar'),
+    tipoGasto: () => document.getElementById('radio-gastos')
 }

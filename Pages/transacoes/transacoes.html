@@ -19,10 +19,10 @@
     <form>
         <div class="form">
             <div><label>Transação</label></div>
-            <input type="radio" name="type" checked id="1"> 
-            <label for="1">Despesa</label>
-            <input type="radio" name="type" id="2"> 
-            <label for="2">Receita</label>
+            <input type="radio" name="type" checked id="radio-gastos"> 
+            <label for="radio-gastos">Despesa</label>
+            <input type="radio" name="type" id="radio-recebidos"> 
+            <label for="radio-cebidos">Receita</label>
         </div><br>
         <div class="form">
             <div><label>Data da transação*</label></div>
@@ -32,7 +32,7 @@
         </div><br>
         <div class="form">
             <div><label>Moeda*</label></div>
-            <select class="larguratoda">
+            <select class="larguratoda" id="currency">
                 <option value="BRL" selected>Real</option>
                 <option value="USD">Dólar</option>
                 <option value="EUR">Euro</option>
@@ -62,7 +62,7 @@
         </div><br>
         <div class="form">
             <div><label>Descrição</label></div>
-            <input class="larguratoda" type="text"> 
+            <input class="larguratoda" type="text" id="description"> 
         </div><br>
         <button type="button" class="b-solid larguratoda" id="botao-salvar" disabled>Salvar</button>
         <button type="button" class="b-clear larguratoda" onclick="location.href = '../../home.html'">Cancelar</button>
@@ -72,6 +72,7 @@
 <script>
 </script>
 <script type="module" src="transaction.js"></script>
+<script src="../../loading.js"></script>
 <script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
 <script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js"></script>
 <script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js"></script>
