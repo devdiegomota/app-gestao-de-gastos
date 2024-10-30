@@ -1,9 +1,9 @@
-import { getAuth, signOut, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getFirestore, doc, addDoc, setDoc, query, where, collection, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getFirestore, doc, addDoc, setDoc, query, where, collection, getDoc, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 
-const firebaseConfig  = {
+const firebaseConfig = {
     apiKey: "AIzaSyBdwnBgSGDXFw7LKhOWZcC7qucnYI0KbVE",
     authDomain: "controle-de-gastos-83eb5.firebaseapp.com",
     projectId: "controle-de-gastos-83eb5",
@@ -14,84 +14,80 @@ const firebaseConfig  = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+if (!ehNovaTransacao()) {
+    const uid = PegarUIDtransacao();
+    pegarTransacaoPorID(uid);
+}
+
+//FUNÇÃO QUE PEGA O UID DA URL DA PÁGINA---------------------------
+function PegarUIDtransacao() {
+    const ParametroURL = new URLSearchParams(window.location.search);
+    //return ParametroURL.get('uid');
+    return ParametroURL.get('uid')
+}
+//---------------------------------------
+//VERIFICAR SE TEM ID E RETORNA SIM OU NAO-----------
+function ehNovaTransacao() {
+    return PegarUIDtransacao ? false : true;
+}
+
+
 //----------------------------------------------------------------
+
+///PAREI AQUI////////////////////30/10
+//pegarTransacaoPorID()
+async function pegarTransacaoPorID(uid) {
+    
+    var string = uid + ''
+    const docref = doc(db, "transaction", string);
+
+    const docSnapshot = await getDoc(docref);
+        
+    console.log(docSnapshot.data())
+
+//console.log(uid)
+}
+
+
+//-------------------------------------------------
+
 //SEÇÃO QUE AO CLICAR EM SALVAR CHAMA A FUNÇÃO QUE CONTÉM OS DADOS DIGITADOS
 const botaoSalvar = document.getElementById('botao-salvar')
-if(botaoSalvar) { 
-botaoSalvar.addEventListener("click", SalvarTransacao)
+if (botaoSalvar) {
+    botaoSalvar.addEventListener("click", SalvarTransacao)
 }
 //----------------------------------
-
+//PEGA OS DADOS DO USUARIO E ENVIA PARA O BANCO DE DADOS
 function SalvarTransacao() {
-ShowLoading()
+    ShowLoading()
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
-    if (user) {
+        if (user) {
 
-    const uid = user.uid;
-    const Dados = addDoc(collection(db, "transaction"), {
+            const uid = user.uid;
+            const Dados = addDoc(collection(db, "transaction"), {
 
-        tipo: form.tipoGasto().checked ? "gastos" : "recebidos",
-        data: form.data().value,
-        money: {
-        currency: form.currency().value,
-        valor: parseFloat(form.valor().value)
-        },
-        tipoTransacao: form.tipoTransacao().value,
-        description: form.description().value,
-        user: {
-            uid: uid
+                tipo: form.tipoGasto().checked ? "gastos" : "recebidos",
+                data: form.data().value,
+                money: {
+                    currency: form.currency().value,
+                    valor: parseFloat(form.valor().value)
+                },
+                tipoTransacao: form.tipoTransacao().value,
+                description: form.description().value,
+                user: {
+                    uid: uid
+                }
+            })
+
+            console.log("Document written with ID: ", Dados.id)
         }
-
-
-    }
-    )
-    console.log("Document written with ID: ", Dados.id)
-
-    }
-    }
-    
-    )
+    })
+    //PÁGINA DESTINO APÓS O ENVIO
     setTimeout(() => location.href = "../../home.html", 2000);
-    
-    
-
 }
 
-
-
-    
-//----------------------------
-   
-
-
-/*
-async function SalvarTransacao() {
-
-        const Dados = await addDoc(collection(db, "transaction"), {
-
-
-            tipo: form.tipoGasto().checked ? "gastos" : "recebidos",
-            data: form.data().value,
-            money: {
-            currency: form.currency().value,
-            valor: parseFloat(form.valor().value)
-            },
-            tipoTransacao: form.tipoTransacao().value,
-            description: form.description().value,
-            //user: 
-    
-    
-        })
-        console.log("Document written with ID: ", Dados.id)
-
-    }
-    */
-
-
-
-
-//----------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 //CHAMA O BOTAO DESLOGAR E MONITORA OS CLIQUES NELE PARA CHAMAR FUNCAO-------------------------------
 const logoutt = document.getElementById('logout-button-2');
@@ -102,19 +98,20 @@ if (logoutt) {//usando if para verificar o elemento para não dar erro de TypeEr
 function Logout2() {
     const auth = getAuth();
     signOut(auth)
-    .then(() => {
-        window.location.href = "../../login.html" //PAGINA ESCOLHIDA AO DESLOGAR
-    })
-    .catch((error) => {
-        alert('Falha ao deslogar')
-    console.log(error);
-    });
-//---------------------------------------------------
+        .then(() => {
+            window.location.href = "../../login.html" //PAGINA ESCOLHIDA AO DESLOGAR
+        })
+        .catch((error) => {
+            alert('Falha ao deslogar')
+            console.log(error);
+        });
 }
+//------------------------------------------------------------------------------------
+
 //SEÇÃO DATA AO IPUTAR DATAS ELE FAZ A VALIDAÇÃO------------------------
 const campodata = document.getElementById('data')
 if (campodata) {
- campodata.addEventListener("input", OnchangeDate);
+    campodata.addEventListener("input", OnchangeDate);
 }
 //FUNÇÃO QUE FAZ A VALIDAÇÃO
 function OnchangeDate() {
@@ -124,10 +121,11 @@ function OnchangeDate() {
     BotaoSalvarDesabilitar()
 }
 //------------------------
+
 //SEÇÃO VALOR AO IPUTAR VALOR ELE FAZ A VALIDAÇÃO------------------------
 const Campovalor = document.getElementById('valor')
-if (Campovalor) { 
-Campovalor.addEventListener("input", OnchangeValor);
+if (Campovalor) {
+    Campovalor.addEventListener("input", OnchangeValor);
 }
 //FUNÇÃO DE VALIDAÇÃO
 function OnchangeValor() {
@@ -140,8 +138,8 @@ function OnchangeValor() {
 //----------------------------------------------------------------------
 //SEÇÃO TIPO TRANSAÇÃO
 const campoTipoTransacao = document.getElementById('tipo-transacao');
-if (campoTipoTransacao) { 
-campoTipoTransacao.addEventListener("input", OnchangeTransactionTipo)
+if (campoTipoTransacao) {
+    campoTipoTransacao.addEventListener("input", OnchangeTransactionTipo)
 }
 function OnchangeTransactionTipo() {
     const tipoTransação = form.tipoTransacao().value;
@@ -156,7 +154,7 @@ function BotaoSalvarDesabilitar() {
 }
 function FormularioValido() {
     const data = form.data().value;
-    if(!data) {
+    if (!data) {
         return false
     }
     const valor = form.valor().value;
@@ -169,8 +167,8 @@ function FormularioValido() {
     }
     return true
 }
-//------------------------------------------
-//ELEMENTOS EM FORMA DE OBJETOS
+//-----------------------------------------------------------------------------
+//ELEMENTOS EM FORMA DE OBJETOS-------------------------------------------------
 const form = {
     data: () => document.getElementById('data'),
     description: () => document.getElementById('description'),

@@ -9,7 +9,7 @@ function ShowLoading() {
 
    document.body.appendChild(div);
 
-   setTimeout(() => hideLoading(), 2000);
+   setTimeout(() => hideLoading(), 1000);
 }
 
 function hideLoading() {

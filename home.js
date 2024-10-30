@@ -1,6 +1,6 @@
 import { getAuth, signOut, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getFirestore, query, where, collection, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getFirestore, query, where, collection, getDocs, orderBy} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 
 
@@ -18,7 +18,7 @@ const db = getFirestore(app);
 
 UserLoged()// CHAMA A FUNÇÃO QUE VERIFICA SE TA LOGADO
 
-//VERIFICA SE O USUARIO TA LOGADO
+//VERIFICA SE O USUARIO TA LOGADO-----------------------------------------------------
 function UserLoged () {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
@@ -29,7 +29,7 @@ function UserLoged () {
       }
     });
 }
-
+//-----------------------------------------------------------------
 
 //CHAMA O BOTAO DESLOGAR E MONITORA OS CLIQUES NELE PARA CHAMAR FUNCAO
 const logoutbutton = document.getElementById('logout-button')
@@ -50,8 +50,9 @@ function Logout() {
     console.log(error);
     });
 }
+//-------------------------------------------------------------------
 
-//CHAMA O BOTAO ADD TRANSAÇÕES E MONITORA OS CLIQUES NELE PARA CHAMAR FUNCAO
+//CHAMA O BOTAO ADD TRANSAÇÕES E MONITORA OS CLIQUES NELE PARA CHAMAR FUNCAO------------------------
 const adtransacoes = document.getElementById('botao-flutuante')
 adtransacoes.addEventListener("click", function() {
     
@@ -62,28 +63,30 @@ adtransacoes.addEventListener("click", function() {
 function AddTransacoes() {
     window.location.href = "pages/transacoes/transacoes.html"
 }
- 
 
-//FUNÇÃO QUE PEGA OS DADOS NO FIRESTORE
+//------------------------------------------------------------------------------
+
+//FUNÇÃO QUE PEGA OS DADOS NO FIRESTORE-------------------------------------------------
 async function ProcuraTransacoes(user) {
     ShowLoading()//mostra carregando
 
-    //const querySnapshot = await getDocs(collection(db, "transaction"), where ("user.uid", "==", user.uid))//Pega os documentos da coleção 'transation'
     const q = query(collection(db, "transaction"), where("user.uid", "==", user.uid), orderBy("data", "desc"));//seleciona a coleção transaction e filtra com base na condição do where ordena por data decressente
 
     const querySnapshot = await getDocs(q);//chama a coleção 'q' selecionada acima
-    //querySnapshot.forEach((doc) => {//para cada documento faça =>
     
-     //console.log(doc.id, " => ", doc.data());
-    //});
-    
-    const transactions = querySnapshot.docs.map(doc => doc.data())//Mapeia os docs e cria uma arwey deles na const'transactions'
+    const transactions = querySnapshot.docs.map(doc => ({
+        ...doc.data(),
+        uid: doc.id
+    }));
+        
     console.log(transactions)
+
     AddTransacoesNaTela(transactions);//coloca essa arwey criada na função que joga na tela
+}
 
+//----------------------------------------------------//---------------------------------
 
-};
-
+//CRIA OS ELEMENTOS NA TELA EM FORMA DE LISTA ORDENADA CONTENDO 4 PARAFRAFOS ONDE CADA UM RECEBE OBJETOS DO BANCO------------------------
 
 function AddTransacoesNaTela(transactions) {
 const listaordenada = document.getElementById('transaction')
@@ -91,6 +94,9 @@ const listaordenada = document.getElementById('transaction')
 transactions.forEach(transaction => {
     const li = document.createElement('li');
     li.classList.add(transaction.tipo);
+    li.addEventListener("click", () => {
+        window.location.href = "pages/transacoes/transacoes.html?uid=" + transaction.uid;
+    })
 
     const data = document.createElement('p');
     data.innerHTML = FormatDate(transaction.data)
@@ -113,7 +119,9 @@ transactions.forEach(transaction => {
     listaordenada.appendChild(li);
 });
 }
+//------------------------------------//-------------------------------------------------------//
 
+//RETORNA DOIS SUBOBJETOS NO OBJETO MONEY.
 function formatMoney(money){
     return `${money.currency} ${money.valor}`
 }
