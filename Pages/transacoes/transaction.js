@@ -13,16 +13,28 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+//------------------------------------------------------------------
 
-if (!ehNovaTransacao()) {
-    const uid = PegarUIDtransacao();
-    pegarTransacaoPorID(uid);
+//AO CARREGAR O ELEMENTO BOTAO SALVAR CHAMA A FUNÇÃO QUE QUISER
+const ExecutaOnload = document.getElementById('botao-salvar')
+if (ExecutaOnload) {
+    ExecutaOnload.onload = NaoEhNovaTransacao();
 }
+//Função chamada ao carregar o botão
+function NaoEhNovaTransacao() {
+
+    if (!ehNovaTransacao()) {
+        const uid = PegarUIDtransacao();
+        pegarTransacaoPorID(uid);
+    }
+}
+///--------------------------------------------------------------------------
+
 
 //FUNÇÃO QUE PEGA O UID DA URL DA PÁGINA---------------------------
 function PegarUIDtransacao() {
     const ParametroURL = new URLSearchParams(window.location.search);
-    //return ParametroURL.get('uid');
+
     return ParametroURL.get('uid')
 }
 //---------------------------------------
@@ -30,26 +42,29 @@ function PegarUIDtransacao() {
 function ehNovaTransacao() {
     return PegarUIDtransacao ? false : true;
 }
+//-----------------------------------------------------------------------------------------------
 
-
-//----------------------------------------------------------------
-
-///PAREI AQUI////////////////////30/10
-//pegarTransacaoPorID()
+//AO CLICAR NAS TRANSAÇÕES OU NO BOTAO ADD TRANSAÇÃO ELE PEGA O ID DE ACORDO COM A OPÇÃO SELECIONADA
 async function pegarTransacaoPorID(uid) {
-    
+    //ShowLoading()
     var string = uid + ''
     const docref = doc(db, "transaction", string);
 
     const docSnapshot = await getDoc(docref);
-        
-    console.log(docSnapshot.data())
+    if (string.length < 20 && string.length > 5) {
 
-//console.log(uid)
+        console.log('Esse documento não existe')
+        window.location.href = "../../home.html"
+    }
+    else if (!uid) {
+        console.log('Adicionar novo documento')
+    }
+    else {
+        console.log(docSnapshot.data())
+        console.log('Editar documento selecionado')
+    }
 }
-
-
-//-------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 
 //SEÇÃO QUE AO CLICAR EM SALVAR CHAMA A FUNÇÃO QUE CONTÉM OS DADOS DIGITADOS
 const botaoSalvar = document.getElementById('botao-salvar')
@@ -59,7 +74,7 @@ if (botaoSalvar) {
 //----------------------------------
 //PEGA OS DADOS DO USUARIO E ENVIA PARA O BANCO DE DADOS
 function SalvarTransacao() {
-    ShowLoading()
+    //ShowLoading()
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
         if (user) {

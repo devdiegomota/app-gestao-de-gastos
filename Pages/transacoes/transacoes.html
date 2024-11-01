@@ -18,7 +18,7 @@
     <main class="centralize">
     <form>
         <div class="form">
-            <div><label>Transação</label></div>
+            <div><label>Tipo:</label></div>
             <input type="radio" name="type" checked id="radio-gastos"> 
             <label for="radio-gastos">Despesa</label>
             <input type="radio" name="type" id="radio-recebidos"> 
@@ -66,15 +66,17 @@
         </div><br>
         <button type="button" class="b-solid larguratoda" id="botao-salvar" disabled>Salvar</button>
         <button type="button" class="b-clear larguratoda" onclick="location.href = '../../home.html'">Cancelar</button>
+        
+
     </form> 
 </main>  
 </body>
-<script>
-</script>
+
+
+
 <script type="module" src="transaction.js"></script>
 <script src="../../loading.js"></script>
 <script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
 <script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js"></script>
 <script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js"></script>
-
 </html>

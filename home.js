@@ -4,6 +4,7 @@ import { getFirestore, query, where, collection, getDocs, orderBy} from "https:/
 
 
 
+
 const firebaseConfig  = {
     apiKey: "AIzaSyBdwnBgSGDXFw7LKhOWZcC7qucnYI0KbVE",
     authDomain: "controle-de-gastos-83eb5.firebaseapp.com",
@@ -68,7 +69,7 @@ function AddTransacoes() {
 
 //FUNÇÃO QUE PEGA OS DADOS NO FIRESTORE-------------------------------------------------
 async function ProcuraTransacoes(user) {
-    ShowLoading()//mostra carregando
+    //ShowLoading()
 
     const q = query(collection(db, "transaction"), where("user.uid", "==", user.uid), orderBy("data", "desc"));//seleciona a coleção transaction e filtra com base na condição do where ordena por data decressente
 
