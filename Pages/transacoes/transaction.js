@@ -1,6 +1,6 @@
 import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getFirestore, doc, addDoc, setDoc, query, where, collection, getDoc, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getFirestore, doc, addDoc, setDoc, query, where, collection, getDoc, getDocs, orderBy, updateDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 
 const firebaseConfig = {
@@ -60,9 +60,28 @@ async function pegarTransacaoPorID(uid) {
         console.log('Adicionar novo documento')
     }
     else {
-        console.log(docSnapshot.data())
+        PreencherDadosNaTela(docSnapshot.data())
+        BotaoSalvarDesabilitar()
+
         console.log('Editar documento selecionado')
     }
+}
+
+function PreencherDadosNaTela(transaction) {
+    if (transaction.tipo == "gastos") {
+        form.tipoGasto().checked = true;
+    } else {
+        form.tipoRecebido().checked = true;
+    }
+    form.data().value = transaction.data;
+    form.currency().value = transaction.money.currency;
+    form.valor().value = transaction.money.valor;
+    form.tipoTransacao().value = transaction.tipoTransacao;
+
+    if (transaction.description){
+        form.description().value = transaction.description;
+    }
+
 }
 //-------------------------------------------------------------------------------------------------
 
@@ -72,35 +91,65 @@ if (botaoSalvar) {
     botaoSalvar.addEventListener("click", SalvarTransacao)
 }
 //----------------------------------
-//PEGA OS DADOS DO USUARIO E ENVIA PARA O BANCO DE DADOS
+//SE FOR NOVA TRANSAÇÃO ELE SALVA SE FOR UMA EXISTENTE ELE ATUALIZA------------------------
 function SalvarTransacao() {
-    //ShowLoading()
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
+   
+if (!PegarUIDtransacao()){
+    Salvar()
+}  else {
+    update();
+} 
+//----------------------------------------------------------------
+//FUNÇÃO QUE ATUALIZA SE FOR SELECIONADA UMA TRANSAÇÃO EXISTENTE------------------------
+async function update(){
+    var uid = PegarUIDtransacao()
+    var string = uid + ''
+    const atualizar = doc(db, "transaction", string);
 
-            const uid = user.uid;
-            const Dados = addDoc(collection(db, "transaction"), {
-
-                tipo: form.tipoGasto().checked ? "gastos" : "recebidos",
-                data: form.data().value,
-                money: {
-                    currency: form.currency().value,
-                    valor: parseFloat(form.valor().value)
-                },
-                tipoTransacao: form.tipoTransacao().value,
-                description: form.description().value,
-                user: {
-                    uid: uid
-                }
-            })
-
-            console.log("Document written with ID: ", Dados.id)
-        }
-    })
-    //PÁGINA DESTINO APÓS O ENVIO
-    setTimeout(() => location.href = "../../home.html", 2000);
+    await updateDoc(atualizar, {
+     
+            tipo: form.tipoGasto().checked ? "gastos" : "recebidos",
+            data: form.data().value,
+            money: {
+                 currency: form.currency().value,
+                 valor: parseFloat(form.valor().value)
+            },
+            tipoTransacao: form.tipoTransacao().value,
+            description: form.description().value,
+});
+location.href = "../../home.html"
 }
+//----------------------------------------------------------------------------------
+//FUNÇÃO QUE SALVA SE IDENTIFICAR NOVA TRANSAÇÃO NA OUTRA FUNÇÃO------------------
+function Salvar(){
+
+ //ShowLoading()
+ const auth = getAuth();
+ onAuthStateChanged(auth, (user) => {
+     if (user) {
+
+         const uid = user.uid;
+         const Dados = addDoc(collection(db, "transaction"), {
+
+             tipo: form.tipoGasto().checked ? "gastos" : "recebidos",
+             data: form.data().value,
+             money: {
+                 currency: form.currency().value,
+                 valor: parseFloat(form.valor().value)
+             },
+             tipoTransacao: form.tipoTransacao().value,
+             description: form.description().value,
+             user: {
+                 uid: uid
+             }
+         })
+
+         console.log("Document written with ID: ", Dados.id)
+     }
+ })
+ //PÁGINA DESTINO APÓS O ENVIO
+ setTimeout(() => location.href = "../../home.html", 2000);
+}}
 
 //--------------------------------------------------------------------------------------------------
 
@@ -183,6 +232,12 @@ function FormularioValido() {
     return true
 }
 //-----------------------------------------------------------------------------
+/*FORMATA DATA PARA PADRAO DO BRAZIL
+function FormatDate(date) {
+    return new Date(date).toLocaleDateString('pt-br');
+}
+*/
+
 //ELEMENTOS EM FORMA DE OBJETOS-------------------------------------------------
 const form = {
     data: () => document.getElementById('data'),
@@ -195,5 +250,6 @@ const form = {
     ErroTipoTransacao: () => document.getElementById('erro-tipo-transacao-obrigatorio'),
     tipoTransacao: () => document.getElementById('tipo-transacao'),
     botaoSalvar: () => document.getElementById('botao-salvar'),
-    tipoGasto: () => document.getElementById('radio-gastos')
+    tipoGasto: () => document.getElementById('radio-gastos'),
+    tipoRecebido: () => document.getElementById('radio-recebidos')
 }

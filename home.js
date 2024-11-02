@@ -128,5 +128,5 @@ function formatMoney(money){
 }
 //FORMATA DATA PARA PADRAO DO BRAZIL
 function FormatDate(date) {
-    return new Date(date).toLocaleDateString('pt-br');
+    return new Date(date).toLocaleDateString('pt-BR');
 }
