@@ -43,3 +43,9 @@ ol li:hover {
 .recebidos {
     border-left: 10px solid rgb(0, 255, 68);
 }
+.botao-remover-home {
+    width: auto;
+    float: inline-end;
+    padding: 5px;
+    
+}

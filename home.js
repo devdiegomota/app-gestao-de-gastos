@@ -1,6 +1,6 @@
 import { getAuth, signOut, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getFirestore, query, where, collection, getDocs, orderBy} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getFirestore, query, where, collection, getDocs, deleteDoc, doc, orderBy} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 
 
@@ -95,10 +95,20 @@ const listaordenada = document.getElementById('transaction')
 transactions.forEach(transaction => {
     const li = document.createElement('li');
     li.classList.add(transaction.tipo);
+    li.id = transaction.uid; //adiciona o uid de cada transação como id de cada lista
     li.addEventListener("click", () => {
         window.location.href = "pages/transacoes/transacoes.html?uid=" + transaction.uid;
     })
-
+    //criando o botão remover transação na tela
+    const BotaoDelete = document.createElement('button')
+    BotaoDelete.innerHTML = "Remover"
+    BotaoDelete.classList.add('botao-remover-home')
+    BotaoDelete.addEventListener('click', event => {
+        event.stopPropagation();
+        ConfirmRemover(transaction)
+    })
+    li.appendChild(BotaoDelete)
+    //botão criado----------------
     const data = document.createElement('p');
     data.innerHTML = FormatDate(transaction.data)
     li.appendChild(data)
@@ -120,6 +130,22 @@ transactions.forEach(transaction => {
     listaordenada.appendChild(li);
 });
 }
+//-----------------------------------------------------------------------------------------
+//FUNÇÃO QUE REMOVE A TRANSAÇÃO PELO BOTÃO
+//etapa de confirmação antes de deletar
+function ConfirmRemover(transaction) {
+    const deveriaremover = confirm('Deseja remover a transação?')
+    console.log(deveriaremover)
+    if(deveriaremover) {
+        RemovaTransacao(transaction)
+    }
+}
+//remove direto do firestore e da tela
+async function RemovaTransacao(transaction){
+    await deleteDoc(doc(db, "transaction", transaction.uid));
+    document.getElementById(transaction.uid).remove();
+}
+
 //------------------------------------//-------------------------------------------------------//
 
 //RETORNA DOIS SUBOBJETOS NO OBJETO MONEY.
