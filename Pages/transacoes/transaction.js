@@ -14,6 +14,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 //------------------------------------------------------------------
+UserLoged()// CHAMA A FUNÇÃO QUE VERIFICA SE TA LOGADO
+//VERIFICA SE O USUARIO TA LOGADO-----------------------------------------------------
+function UserLoged () {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        
+        return true
+    
+      }
+    });
+}
+//-----------------------------------------------------------------
 
 //AO CARREGAR O ELEMENTO BOTAO SALVAR CHAMA A FUNÇÃO QUE QUISER
 const ExecutaOnload = document.getElementById('botao-salvar')
