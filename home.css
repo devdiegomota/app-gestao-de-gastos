@@ -49,3 +49,36 @@ ol li:hover {
     padding: 5px;
     
 }
+#resultado {
+    display: flex;
+    width: 100%;
+    height: 200px;
+    justify-content: space-evenly;
+    
+}
+#resultado-receita {
+    width: 45%;
+    height: 200px;
+    border: 1px solid white;
+    background-color: white;
+    border-radius: 20px;
+    justify-items: center;
+    
+
+}
+#resultado-despesa {
+    width: 45%;
+    height: 200px;
+    border: 1px solid white;
+    background-color: white;
+    border-radius: 20px;
+    justify-items: center;
+}
+.titulo-resultado {
+    font-size: 13px;
+}
+.valor-resultado {
+    font-size: 30px;
+    margin: 64px 0px;
+
+}

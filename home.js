@@ -2,9 +2,6 @@ import { getAuth, signOut, onAuthStateChanged} from "https://www.gstatic.com/fir
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getFirestore, query, where, collection, getDocs, deleteDoc, doc, orderBy} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-
-
-
 const firebaseConfig  = {
     apiKey: "AIzaSyBdwnBgSGDXFw7LKhOWZcC7qucnYI0KbVE",
     authDomain: "controle-de-gastos-83eb5.firebaseapp.com",
