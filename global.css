@@ -21,9 +21,9 @@ h1 {
     align-items: center;
 }
 .botao-remover-home {
-    color: red;
+    color: black;
     background: transparent;
-    border: 1px solid red;
+    border: 1px solid black;
     
 }
 

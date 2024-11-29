@@ -1,7 +1,7 @@
 body {
     
     height: 100vh;
-    background-color: rgb(39, 190, 39);
+    background-color: rgb(42 93 90);
 }
 input, button {  
     padding: 10px;
@@ -81,4 +81,10 @@ ol li:hover {
     font-size: 30px;
     margin: 64px 0px;
 
+}
+#despesas {
+    color: red;
+}
+#receitas {
+    color: green;
 }
