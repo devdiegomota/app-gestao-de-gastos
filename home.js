@@ -15,13 +15,28 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 UserLoged()// CHAMA A FUNÇÃO QUE VERIFICA SE TA LOGADO
-CalculaReceitas()// CHAMA A FUNÇÃO QUE JA MOSTRA AS RECEITAS NO PAINEL
-CalculadDespesas()// CHAMA A FUNÇÃO QUE JA MOSTRA AS DESPESAS NO PAINEL
+
+//VERIFICA SE O USUARIO TA LOGADO-----------------------------------------------------
+function UserLoged() {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+
+            ProcuraTransacoes(user);//Inicia na tela as transações
+            CalculaReceitas(user)// CHAMA A FUNÇÃO QUE JA MOSTRA AS RECEITAS NO PAINEL
+            CalculadDespesas(user)// CHAMA A FUNÇÃO QUE JA MOSTRA AS DESPESAS NO PAINEL
+
+        }   
+    });
+}
+//-----------------------------------------------------------------
+
 
 //FUNÇÃO QUE CALCULA AS RECEITAS-----------------------------------------------------
-async function CalculaReceitas() {
+async function CalculaReceitas(user) {
+
     const coll = collection(db, 'transaction');
-    const q = query(coll, where('tipo', '==', 'recebidos'));
+    const q = query(coll, where('tipo', '==', 'recebidos'), where("user.uid", "==", user.uid));
     const snapshot = await getAggregateFromServer(q, {
         total: sum('money.valor')
     });
@@ -32,10 +47,11 @@ async function CalculaReceitas() {
 
 }
 //------------------------------------------------------------
+
 //FUNÇÃO QUE CALCULA AS DESPESAS-----------------------------------------------------
-async function CalculadDespesas() {
+async function CalculadDespesas(user) {
     const coll = collection(db, 'transaction');
-    const q = query(coll, where('tipo', '==', 'gastos'));
+    const q = query(coll, where('tipo', '==', 'gastos'), where("user.uid", "==", user.uid));
     const snapshot = await getAggregateFromServer(q, {
         total: sum('money.valor')
     });
@@ -45,19 +61,6 @@ async function CalculadDespesas() {
     despesas.innerHTML = `R$${snapshot.data().total}`
 }
 //------------------------------------------------------------
-
-//VERIFICA SE O USUARIO TA LOGADO-----------------------------------------------------
-function UserLoged() {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-
-            ProcuraTransacoes(user);//Inicia na tela as transações
-
-        }
-    });
-}
-//-----------------------------------------------------------------
 
 //CHAMA O BOTAO DESLOGAR E MONITORA OS CLIQUES NELE PARA CHAMAR FUNCAO
 const logoutbutton = document.getElementById('logout-button')
