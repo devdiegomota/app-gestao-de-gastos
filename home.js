@@ -174,6 +174,7 @@ function ConfirmRemover(transaction) {
 async function RemovaTransacao(transaction) {
     await deleteDoc(doc(db, "transaction", transaction.uid));
     document.getElementById(transaction.uid).remove();
+    window.location.reload()
 }
 
 //------------------------------------//-------------------------------------------------------//
