@@ -1,0 +1,38 @@
+body {
+    color: white;
+    height: 90vh;
+    background-color: rgb(42 93 90);
+}
+main {
+    height: 80vh;
+}
+form {
+    width: 300px;
+}
+input, button, select {  
+    padding: 10px;  
+    border-radius: 5px;
+    border: none;
+}
+.larguratoda {
+    width: -webkit-fill-available;
+}
+button {
+    cursor: pointer; 
+}
+#caixa-button-logout {
+    text-align: end;
+}
+#sucess {
+    text-align: center;
+    color: white;
+}
+#logout-button-2 {
+    margin: 5px;
+}
+.gastos {
+    border-left: 10px solid red;
+}
+.recebidos {
+    border-left: 10px solid rgb(0, 255, 68);
+}
