@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -43,4 +44,51 @@
 <script src="validation.js"></script>
 <script src="loading.js"></script>
 
+=======
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto de Despesas</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="global.css">
+    <script type="module" src="login.js"></script>
+
+</head>
+
+<body class="centralize">
+
+    <h1>Login</h1>
+    <form action="www.google.com">
+        <div class="caixa-email">
+            <div><label class="titulo-inputs">Email</label></div>
+            <input type="email" id="email" oninput="OnInputEmail()" placeholder="seuemail@email.com" onclick="" />
+            <div class="error" id="erro-email-obrigatorio">Email é obrigatório</div>
+            <div class="error" id="erro-email-invalido">Email é inválido</div>
+        </div>
+        <div class="caixa-senha">
+            <div><label class="titulo-inputs">Senha</label></div>
+            <input type="password" id="password" oninput="OnInputSenha()" name="password" placeholder="Senha" />
+            <div class="error" id="erro-senha">Senha é obrigatória</div>
+        </div>
+        <div>
+            <button type="button" id="recover-password-b" class="b-clear" disabled>Recuperar Senha</button>
+        </div>
+        <div>
+            <button type="submit" id="login-button" class="b-solid" onclick="ShowLoading()" disabled>Entrar</button>
+        </div>
+        <div>
+            <button type="button" id="register-button" onclick="location.href = 'registrar.html'">Registrar</button>
+        </div>
+    </form>
+
+</body>
+
+<script src="login-error.js"></script>
+<script src="validation.js"></script>
+<script src="loading.js"></script>
+
+>>>>>>> 5705f5084c6d10ffe4789fcb08da13ba4700951d
 </html>

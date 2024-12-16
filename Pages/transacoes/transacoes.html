@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -80,3 +81,87 @@
 <script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js"></script>
 <script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js"></script>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transação</title>
+    <link rel="stylesheet" href="../../global.css">
+    <link rel="stylesheet" href="transacoes.css">
+
+</head>
+<body>
+    <header>
+        <div id="caixa-button-logout">
+            <button type="button" id="logout-button-2" class="b-solid">Sair</button>
+        </div>
+    </header>
+    <div id="sucess">Bem vindo!</div><br>
+    <main class="centralize">
+    <form>
+        <div class="form">
+            <div><label>Tipo:</label></div>
+            <input type="radio" name="type" checked id="radio-gastos"> 
+            <label for="radio-gastos">Despesa</label>
+            <input type="radio" name="type" id="radio-recebidos"> 
+            <label for="radio-recebidos">Receita</label>
+        </div><br>
+        <div class="form">
+            <div><label>Data da transação*</label></div>
+            <input class="larguratoda" type="date" id="data">
+            <div class="error" id="erro-data-obrigatorio">Data é obrigatório ou inválido</div>
+            
+        </div><br>
+        <div class="form">
+            <div><label>Moeda*</label></div>
+            <select class="larguratoda" id="currency">
+                <option value="R$" selected>Real</option>
+                <option value="USD">Dólar</option>
+                <option value="EUR">Euro</option>
+            </select>           
+
+        </div><br>
+        <div class="form">
+            <div><label>Valor*</label></div>
+            <input class="larguratoda" type="number" id="valor"> 
+        </div>
+        <div class="error" id="erro-valor-obrigatorio">Valor é obrigatório</div>
+        <div class="error" id="erro-valor-maior-zero">Valor deve ser maior que 0</div><br>
+       
+
+        <div class="form">
+            <div><label>Tipo de transação*</label></div>
+            <select class="larguratoda" id="tipo-transacao">
+                <option value="">--Selecione--</option>
+                <option>Mercado</option>
+                <option>Salário</option>
+                <option>Carro</option>
+                <option>Casa</option>
+                <option>Outros</option>
+            </select> 
+        <div class="error" id="erro-tipo-transacao-obrigatorio">Selecione o tipo de transação</div>
+
+        </div><br>
+        <div class="form">
+            <div><label>Descrição</label></div>
+            <input class="larguratoda" type="text" id="description"> 
+        </div><br>
+        <button type="button" class="b-solid larguratoda" id="botao-salvar" disabled>Salvar</button>
+        <button type="button" class="b-clear larguratoda" onclick="location.href = '../../home.html'">Cancelar</button>
+        
+
+    </form> 
+</main>  
+</body>
+
+
+
+<script type="module" src="transaction.js"></script>
+<script src="../../loading.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js"></script>
+</html>
+>>>>>>> 5705f5084c6d10ffe4789fcb08da13ba4700951d
