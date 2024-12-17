@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 body {
     
     height: 90vh;
@@ -24,31 +23,4 @@ form {
 }
 .caixa-senha {
     margin-bottom: 10px;
-=======
-body {
-    
-    height: 90vh;
-    background-color:rgb(42 93 90);
-}
-input, button {  
-    padding: 10px;
-    width: -webkit-fill-available;
-    border-radius: 5px;
-}
-button {
-    cursor: pointer; 
-}
-input {
-    border: none;
-    margin-top: 5px;
-}
-form {
-    width: 300px;
-}
-.caixa-email {
-    margin-bottom: 10px;
-}
-.caixa-senha {
-    margin-bottom: 10px;
->>>>>>> 5705f5084c6d10ffe4789fcb08da13ba4700951d
 }
